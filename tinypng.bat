@@ -15,7 +15,7 @@ for %%p in ( *.png,*.jpg ) do (
   echo.
   echo Compressing %%p...	
   for /f "tokens=1,2 usebackq" %%j in ( `curl -k -i -# --user api:%APIKEY% --data-binary @"%%p" https://api.tinypng.com/shrink` ) do (
-    if "%%j"=="Location:" curl -k %%k -# > %PREFIX%%%p%SUFFIX%
+    if "%%j"=="Location:" curl --user api:%APIKEY% --header "Content-Type: application/json" --data "{\"preserve\": [\"location\", \"creation\"]}" -k %%k -# > %PREFIX%%%p%SUFFIX%
   )
 )
 
